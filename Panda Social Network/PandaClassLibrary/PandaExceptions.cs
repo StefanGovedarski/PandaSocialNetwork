@@ -35,5 +35,4 @@ namespace PandaClassLibrary
 
         protected PandasAlreadyFriendsException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
-
 }
