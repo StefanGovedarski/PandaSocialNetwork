@@ -30,9 +30,6 @@ namespace PandaClassLibrary
         
         public void AddPanda(Panda panda)
         {
-            if (HasPanda(panda))
-                throw new PandaAlreadyThereException();
-
             allPandasInTheNetwork.Add(panda, new List<Panda>());
         }
 
