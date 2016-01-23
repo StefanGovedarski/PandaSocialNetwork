@@ -30,6 +30,9 @@ namespace PandaClassLibrary
         
         public void AddPanda(Panda panda)
         {
+            if (HasPanda(panda))
+                throw new PandaAlreadyThereException();
+
             allPandasInTheNetwork.Add(panda, new List<Panda>());
         }
 
@@ -47,7 +50,7 @@ namespace PandaClassLibrary
         {
             if (AreFriends(panda1, panda2))
             {
-                //throw new PandasAlreadyFriendsException();
+                throw new PandasAlreadyFriendsException();
             }
             if (!(allPandasInTheNetwork.ContainsKey(panda1)))
             {
@@ -66,6 +69,7 @@ namespace PandaClassLibrary
                 allPandasInTheNetwork[panda2].Add(panda1);
             }
         }
+
         public bool AreFriends(Panda panda1, Panda panda2)
         {
             if (allPandasInTheNetwork[panda1].Contains(panda2)&&allPandasInTheNetwork[panda2].Contains(panda1))
