@@ -30,6 +30,11 @@ namespace PandaClassLibrary
         
         public void AddPanda(Panda panda)
         {
+            if(allPandasInTheNetwork.ContainsKey(panda))
+            {
+                throw new PandaAlreadyThereException();
+            }
+            else
             allPandasInTheNetwork.Add(panda, new List<Panda>());
         }
 
@@ -47,7 +52,7 @@ namespace PandaClassLibrary
         {
             if (AreFriends(panda1, panda2))
             {
-                //throw new PandasAlreadyFriendsException();
+                throw new PandasAlreadyFriendsException();
             }
             if (!(allPandasInTheNetwork.ContainsKey(panda1)))
             {
@@ -76,6 +81,9 @@ namespace PandaClassLibrary
 
         public List<Panda> FriendsOf(Panda panda)
         {
+            if (!(HasPanda(panda)))
+                return new List<Panda>();
+
             List<Panda> friendsOfThisPanda = allPandasInTheNetwork[panda];
             return friendsOfThisPanda;
         }
@@ -89,6 +97,7 @@ namespace PandaClassLibrary
             return 2;
 
         }
+
         public bool AreConnected(Panda panda1 , Panda panda2)
         {
             if (ConnectionLevel(panda1, panda2) == -1)
