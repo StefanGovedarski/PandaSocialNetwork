@@ -71,6 +71,7 @@ namespace PandaClassLibrary
                 allPandasInTheNetwork[panda2].Add(panda1);
             }
         }
+
         public bool AreFriends(Panda panda1, Panda panda2)
         {
             if (allPandasInTheNetwork[panda1].Contains(panda2)&&allPandasInTheNetwork[panda2].Contains(panda1))
