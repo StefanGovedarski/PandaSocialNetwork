@@ -1,12 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace PandaClassLibrary
 {
-    public class PandaExceptions
+    public class InvalidPandaEmailException : ApplicationException
     {
+        public InvalidPandaEmailException() : this("Invalid email input!") { }
+
+        public InvalidPandaEmailException(string message) : base(message) { }
+
+        public InvalidPandaEmailException(string message, Exception innerException) : base(message, innerException) { }
+
+        protected InvalidPandaEmailException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }
