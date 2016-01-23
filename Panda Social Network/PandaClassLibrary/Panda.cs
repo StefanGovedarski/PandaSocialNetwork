@@ -18,6 +18,7 @@ namespace PandaClassLibrary
         private string name;
         private string email;
         private GenderType gender;
+        private int id;
 
         private Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
 
@@ -37,6 +38,7 @@ namespace PandaClassLibrary
         public string Name { get { return name; } set { name = value; } }
         public string Email { get { return email; } set { email = value; } }
         public GenderType Gender { get { return gender; } set { gender = value; } }
+        
 
         public bool IsMale()
         {
