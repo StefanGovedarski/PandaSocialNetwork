@@ -30,6 +30,7 @@ namespace PandaClassLibrary
         
         public void AddPanda(Panda panda)
         {
+
             allPandasInTheNetwork.Add(panda, new List<Panda>());
         }
 
@@ -80,6 +81,7 @@ namespace PandaClassLibrary
             List<Panda> friendsOfThisPanda = allPandasInTheNetwork[panda];
             return friendsOfThisPanda;
         }
+
         public int ConnectionLevel(Panda panda1 , Panda panda2)
         {
             if(AreFriends(panda1,panda2))
@@ -90,6 +92,7 @@ namespace PandaClassLibrary
             return 2;
 
         }
+
         public bool AreConnected(Panda panda1 , Panda panda2)
         {
             if (ConnectionLevel(panda1, panda2) == -1)
@@ -99,6 +102,7 @@ namespace PandaClassLibrary
             else
                 return true;
         }
+
         public void HowManyGenderInNetwork(int level , Panda panda , GenderType gender)
         {
             int genderCounter = 0;
@@ -117,9 +121,6 @@ namespace PandaClassLibrary
 
             }
         }
-
-
-
 
     }
 }
