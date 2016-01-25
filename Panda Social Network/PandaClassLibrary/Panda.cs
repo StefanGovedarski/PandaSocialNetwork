@@ -18,7 +18,6 @@ namespace PandaClassLibrary
         private string name;
         private string email;
         private GenderType gender;
-        private int id;
 
         private Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
 
