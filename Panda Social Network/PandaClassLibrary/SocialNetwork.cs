@@ -121,7 +121,7 @@ namespace PandaClassLibrary
             {
                 List<List<Panda>> temporaryListOfPandasToBeSearched = new List<List<Panda>>();
                 temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[panda]);
-                int NumberOfListsToBeRemovedFromTheTempList = 1;
+                int NumberOfListsToBeRemovedFromTheTempList = 0;
                 int n = 0;
                 while (n < level)
                 {
@@ -141,6 +141,7 @@ namespace PandaClassLibrary
                         {
                             temporaryListOfPandasToBeSearched.Remove(temporaryListOfPandasToBeSearched[i]);
                         }
+                        NumberOfListsToBeRemovedFromTheTempList = 0;
                         n++;
                     }
                 }
