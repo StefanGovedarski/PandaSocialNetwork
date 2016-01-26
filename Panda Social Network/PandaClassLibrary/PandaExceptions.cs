@@ -27,12 +27,19 @@ namespace PandaClassLibrary
 
     public class PandasAlreadyFriendsException : ApplicationException
     {
-        public PandasAlreadyFriendsException() : this("These panda are already friends.") { }
+        public PandasAlreadyFriendsException() : this("These pandas are already friends.") { }
 
         public PandasAlreadyFriendsException(string message) : base(message) { }
 
         public PandasAlreadyFriendsException(string message, Exception innerException) : base(message, innerException) { }
 
         protected PandasAlreadyFriendsException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+    public class PandaNotInNetworkException : Exception
+    {
+        public PandaNotInNetworkException() : this("The input panda does not exist in the Panda Social Network") { }
+        public PandaNotInNetworkException(string message) : base(message) { }
+        public PandaNotInNetworkException(string message, Exception innerException) : base(message, innerException) { }
+        protected PandaNotInNetworkException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

@@ -109,25 +109,48 @@ namespace PandaClassLibrary
         }
         public void HowManyGenderInNetwork(int level , Panda panda , GenderType gender)
         {
-            int genderCounter = 0;
-            if(level == 1)
+            if(level<0)
             {
-                foreach(var el in allPandasInTheNetwork[panda])
+                Console.WriteLine("Input a negative integer for level will take that integer and takes its absolute value");
+                level = Math.Abs(level);
+            }
+            int genderCounter = 0;
+            if (HasPanda(panda))
+            {
+                List<List<Panda>> temporaryListOfPandasToBeSearched = new List<List<Panda>>();
+                temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[panda]);
+                int n = 0;
+                while (n < level)
                 {
-                    if(el.Gender == gender)
+                    foreach (var pandaFriendList in temporaryListOfPandasToBeSearched)
                     {
-                        genderCounter++;
+                        foreach (var Panda in pandaFriendList)
+                        {
+                            if (Panda.Gender == gender)
+                            {
+                                genderCounter++;
+                            }
+                            temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[Panda]);
+                        }
+                        n++;
                     }
                 }
             }
             else
             {
-
+                throw new PandaNotInNetworkException();
             }
+            //тази част май не е нужна ако оставиш метода да работи по начина отгоре(оставям я защото не съм сигурен дали level = 0 е нищо или е приятелите на 1вия...)
+            //if (level == 0)
+            //{
+            //    foreach (var el in allPandasInTheNetwork[panda])
+            //    {
+            //        if (el.Gender == gender)
+            //        {
+            //            genderCounter++;
+            //        }
+            //    }
+            //}
         }
-
-
-
-
     }
 }
