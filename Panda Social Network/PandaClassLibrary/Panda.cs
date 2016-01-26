@@ -37,6 +37,7 @@ namespace PandaClassLibrary
         public string Name { get { return name; } set { name = value; } }
         public string Email { get { return email; } set { email = value; } }
         public GenderType Gender { get { return gender; } set { gender = value; } }
+        
 
         public bool IsMale()
         {
