@@ -84,21 +84,38 @@ namespace PandaClassLibrary
 
         public int ConnectionLevel(Panda panda1 , Panda panda2)
         {
-            if(AreFriends(panda1,panda2))
-            {
-                return 1;
-            }
-            //to be continued
-            return 2;
+            if (!HasPanda(panda1) || !HasPanda(panda2))
+                return -1;
 
+            var visited = new List<Panda>();
+            var queue = new Queue<ConnectionLevelNode>();
+
+            queue.Enqueue(new ConnectionLevelNode() { Node = panda1, Level = 0 });
+
+            while(queue.Count > 0)
+            {
+                var nodeLevel = queue.Dequeue();
+                visited.Add(nodeLevel.Node);
+
+                if (allPandasInTheNetwork[nodeLevel.Node].Contains(panda2))
+                    return nodeLevel.Level + 1;
+
+                foreach (var neighbour in allPandasInTheNetwork[nodeLevel.Node])
+                {
+                    if(!visited.Contains(neighbour))
+                    {
+                        queue.Enqueue(new ConnectionLevelNode() { Node = neighbour, Level = nodeLevel.Level + 1 });
+                    }
+                }
+            }
+
+            return -1;
         }
 
         public bool AreConnected(Panda panda1 , Panda panda2)
         {
             if (ConnectionLevel(panda1, panda2) == -1)
-            {
                 return false;
-            }
             else
                 return true;
         }
@@ -120,6 +137,12 @@ namespace PandaClassLibrary
             {
 
             }
+        }
+
+        private class ConnectionLevelNode
+        {
+            public Panda Node { get; set; }
+            public int Level { get; set; }
         }
 
     }
