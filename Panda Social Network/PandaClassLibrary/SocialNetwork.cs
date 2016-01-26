@@ -30,7 +30,11 @@ namespace PandaClassLibrary
         
         public void AddPanda(Panda panda)
         {
-
+            if(allPandasInTheNetwork.ContainsKey(panda))
+            {
+                throw new PandaAlreadyThereException();
+            }
+            else
             allPandasInTheNetwork.Add(panda, new List<Panda>());
         }
 
@@ -78,6 +82,11 @@ namespace PandaClassLibrary
 
         public List<Panda> FriendsOf(Panda panda)
         {
+            if (!(HasPanda(panda)))
+            {
+                throw new PandaNotInNetworkException();
+            }
+
             List<Panda> friendsOfThisPanda = allPandasInTheNetwork[panda];
             return friendsOfThisPanda;
         }
@@ -101,11 +110,11 @@ namespace PandaClassLibrary
                     return nodeLevel.Level + 1;
 
                 foreach (var neighbour in allPandasInTheNetwork[nodeLevel.Node])
-                {
+            {
                     if(!visited.Contains(neighbour))
                     {
                         queue.Enqueue(new ConnectionLevelNode() { Node = neighbour, Level = nodeLevel.Level + 1 });
-                    }
+            }
                 }
             }
 
@@ -122,20 +131,44 @@ namespace PandaClassLibrary
 
         public void HowManyGenderInNetwork(int level , Panda panda , GenderType gender)
         {
-            int genderCounter = 0;
-            if(level == 1)
+            if(level<0)
             {
-                foreach(var el in allPandasInTheNetwork[panda])
+                Console.WriteLine("Input a negative integer for level will take that integer and takes its absolute value");
+                level = Math.Abs(level);
+            }
+            int genderCounter = 0;
+            if (HasPanda(panda))
+            {
+                List<List<Panda>> temporaryListOfPandasToBeSearched = new List<List<Panda>>();
+                temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[panda]);
+                int NumberOfListsToBeRemovedFromTheTempList = 0;
+                int n = 0;
+                while (n < level)
                 {
-                    if(el.Gender == gender)
+                    foreach (var pandaFriendList in temporaryListOfPandasToBeSearched)
+                    {
+                        NumberOfListsToBeRemovedFromTheTempList++;
+                        foreach (var Panda in pandaFriendList)
+                {
+                            if (Panda.Gender == gender)
                     {
                         genderCounter++;
+                    }
+                            temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[Panda]);
+
+                        }
+                        for (int i = 0; i < NumberOfListsToBeRemovedFromTheTempList; i++)
+                        {
+                            temporaryListOfPandasToBeSearched.Remove(temporaryListOfPandasToBeSearched[i]);
+                        }
+                        NumberOfListsToBeRemovedFromTheTempList = 0;
+                        n++;
                     }
                 }
             }
             else
             {
-
+                throw new PandaNotInNetworkException();
             }
         }
 
