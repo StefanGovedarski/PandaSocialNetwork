@@ -82,7 +82,9 @@ namespace PandaClassLibrary
         public List<Panda> FriendsOf(Panda panda)
         {
             if (!(HasPanda(panda)))
-                return new List<Panda>();
+            {
+                throw new PandaNotInNetworkException();
+            }
 
             List<Panda> friendsOfThisPanda = allPandasInTheNetwork[panda];
             return friendsOfThisPanda;
@@ -119,11 +121,13 @@ namespace PandaClassLibrary
             {
                 List<List<Panda>> temporaryListOfPandasToBeSearched = new List<List<Panda>>();
                 temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[panda]);
+                int NumberOfListsToBeRemovedFromTheTempList = 0;
                 int n = 0;
                 while (n < level)
                 {
                     foreach (var pandaFriendList in temporaryListOfPandasToBeSearched)
                     {
+                        NumberOfListsToBeRemovedFromTheTempList++;
                         foreach (var Panda in pandaFriendList)
                         {
                             if (Panda.Gender == gender)
@@ -131,6 +135,11 @@ namespace PandaClassLibrary
                                 genderCounter++;
                             }
                             temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[Panda]);
+
+                        }
+                        for (int i = 0; i < NumberOfListsToBeRemovedFromTheTempList; i++)
+                        {
+                            temporaryListOfPandasToBeSearched.Remove(temporaryListOfPandasToBeSearched[i]);
                         }
                         n++;
                     }
