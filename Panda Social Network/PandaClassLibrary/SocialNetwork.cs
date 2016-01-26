@@ -150,8 +150,7 @@ namespace PandaClassLibrary
             {
                 throw new PandaNotInNetworkException();
             }
-            //тази част май не е нужна ако оставиш метода да работи по начина отгоре(оставям я защото не съм сигурен дали level = 0 е нищо или е приятелите на 1вия...)
-            //if (level == 0)
+           //nz dali pri level 0 ima zna4enie - zatva go ostaam tva
             //{
             //    foreach (var el in allPandasInTheNetwork[panda])
             //    {
