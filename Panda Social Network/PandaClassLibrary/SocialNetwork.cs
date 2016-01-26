@@ -71,6 +71,7 @@ namespace PandaClassLibrary
                 allPandasInTheNetwork[panda2].Add(panda1);
             }
         }
+
         public bool AreFriends(Panda panda1, Panda panda2)
         {
             if (allPandasInTheNetwork[panda1].Contains(panda2)&&allPandasInTheNetwork[panda2].Contains(panda1))
@@ -89,26 +90,45 @@ namespace PandaClassLibrary
             List<Panda> friendsOfThisPanda = allPandasInTheNetwork[panda];
             return friendsOfThisPanda;
         }
+
         public int ConnectionLevel(Panda panda1 , Panda panda2)
         {
-            if(AreFriends(panda1,panda2))
-            {
-                return 1;
-            }
-            //to be continued
-            return 2;
+            if (!HasPanda(panda1) || !HasPanda(panda2))
+                return -1;
 
+            var visited = new List<Panda>();
+            var queue = new Queue<ConnectionLevelNode>();
+
+            queue.Enqueue(new ConnectionLevelNode() { Node = panda1, Level = 0 });
+
+            while(queue.Count > 0)
+            {
+                var nodeLevel = queue.Dequeue();
+                visited.Add(nodeLevel.Node);
+
+                if (allPandasInTheNetwork[nodeLevel.Node].Contains(panda2))
+                    return nodeLevel.Level + 1;
+
+                foreach (var neighbour in allPandasInTheNetwork[nodeLevel.Node])
+            {
+                    if(!visited.Contains(neighbour))
+                    {
+                        queue.Enqueue(new ConnectionLevelNode() { Node = neighbour, Level = nodeLevel.Level + 1 });
+            }
+                }
+            }
+
+            return -1;
         }
 
         public bool AreConnected(Panda panda1 , Panda panda2)
         {
             if (ConnectionLevel(panda1, panda2) == -1)
-            {
                 return false;
-            }
             else
                 return true;
         }
+
         public void HowManyGenderInNetwork(int level , Panda panda , GenderType gender)
         {
             if(level<0)
@@ -129,11 +149,11 @@ namespace PandaClassLibrary
                     {
                         NumberOfListsToBeRemovedFromTheTempList++;
                         foreach (var Panda in pandaFriendList)
-                        {
+                {
                             if (Panda.Gender == gender)
-                            {
-                                genderCounter++;
-                            }
+                    {
+                        genderCounter++;
+                    }
                             temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[Panda]);
 
                         }
@@ -150,16 +170,13 @@ namespace PandaClassLibrary
             {
                 throw new PandaNotInNetworkException();
             }
-           //nz dali pri level 0 ima zna4enie - zatva go ostaam tva
-            //{
-            //    foreach (var el in allPandasInTheNetwork[panda])
-            //    {
-            //        if (el.Gender == gender)
-            //        {
-            //            genderCounter++;
-            //        }
-            //    }
-            //}
         }
+
+        private class ConnectionLevelNode
+        {
+            public Panda Node { get; set; }
+            public int Level { get; set; }
+        }
+
     }
 }
