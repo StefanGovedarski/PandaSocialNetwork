@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace PandaClassLibrary
 {
+    [Serializable]
     public class SocialNetwork
     {
         private Dictionary<Panda, List<Panda>> allPandasInTheNetwork = new Dictionary<Panda, List<Panda>>();
@@ -25,17 +26,17 @@ namespace PandaClassLibrary
             }
 
         }
-        public static Dictionary<Panda,List<Panda>> AllPandasInTheNetwork { get; set; }
+        public static Dictionary<Panda, List<Panda>> AllPandasInTheNetwork { get; set; }
 
-        
+
         public void AddPanda(Panda panda)
         {
-            if(allPandasInTheNetwork.ContainsKey(panda))
+            if (allPandasInTheNetwork.ContainsKey(panda))
             {
                 throw new PandaAlreadyThereException();
             }
             else
-            allPandasInTheNetwork.Add(panda, new List<Panda>());
+                allPandasInTheNetwork.Add(panda, new List<Panda>());
         }
 
         public bool HasPanda(Panda panda)
@@ -74,7 +75,7 @@ namespace PandaClassLibrary
 
         public bool AreFriends(Panda panda1, Panda panda2)
         {
-            if (allPandasInTheNetwork[panda1].Contains(panda2)&&allPandasInTheNetwork[panda2].Contains(panda1))
+            if (allPandasInTheNetwork[panda1].Contains(panda2) && allPandasInTheNetwork[panda2].Contains(panda1))
                 return true;
             else
                 return false;
@@ -91,7 +92,7 @@ namespace PandaClassLibrary
             return friendsOfThisPanda;
         }
 
-        public int ConnectionLevel(Panda panda1 , Panda panda2)
+        public int ConnectionLevel(Panda panda1, Panda panda2)
         {
             if (!HasPanda(panda1) || !HasPanda(panda2))
                 return -1;
@@ -101,7 +102,7 @@ namespace PandaClassLibrary
 
             queue.Enqueue(new ConnectionLevelNode() { Node = panda1, Level = 0 });
 
-            while(queue.Count > 0)
+            while (queue.Count > 0)
             {
                 var nodeLevel = queue.Dequeue();
                 visited.Add(nodeLevel.Node);
@@ -110,18 +111,18 @@ namespace PandaClassLibrary
                     return nodeLevel.Level + 1;
 
                 foreach (var neighbour in allPandasInTheNetwork[nodeLevel.Node])
-            {
-                    if(!visited.Contains(neighbour))
+                {
+                    if (!visited.Contains(neighbour))
                     {
                         queue.Enqueue(new ConnectionLevelNode() { Node = neighbour, Level = nodeLevel.Level + 1 });
-            }
+                    }
                 }
             }
 
             return -1;
         }
 
-        public bool AreConnected(Panda panda1 , Panda panda2)
+        public bool AreConnected(Panda panda1, Panda panda2)
         {
             if (ConnectionLevel(panda1, panda2) == -1)
                 return false;
@@ -129,9 +130,9 @@ namespace PandaClassLibrary
                 return true;
         }
 
-        public void HowManyGenderInNetwork(int level , Panda panda , GenderType gender)
+        public void HowManyGenderInNetwork(int level, Panda panda, GenderType gender)
         {
-            if(level<0)
+            if (level < 0)
             {
                 Console.WriteLine("Input a negative integer for level will take that integer and takes its absolute value");
                 level = Math.Abs(level);
@@ -149,11 +150,11 @@ namespace PandaClassLibrary
                     {
                         NumberOfListsToBeRemovedFromTheTempList++;
                         foreach (var Panda in pandaFriendList)
-                {
+                        {
                             if (Panda.Gender == gender)
-                    {
-                        genderCounter++;
-                    }
+                            {
+                                genderCounter++;
+                            }
                             temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[Panda]);
 
                         }
@@ -172,6 +173,7 @@ namespace PandaClassLibrary
             }
         }
 
+        [Serializable]
         private class ConnectionLevelNode
         {
             public Panda Node { get; set; }
