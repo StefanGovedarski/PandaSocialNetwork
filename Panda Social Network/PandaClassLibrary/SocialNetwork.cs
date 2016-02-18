@@ -129,48 +129,48 @@ namespace PandaClassLibrary
                 return true;
         }
 
-        public void HowManyGenderInNetwork(int level , Panda panda , GenderType gender)
+        public int HowManyGenderInNetwork(int level, Panda panda, GenderType gender)
         {
-            if(level<0)
-            {
-                Console.WriteLine("Input a negative integer for level will take that integer and takes its absolute value");
-                level = Math.Abs(level);
-            }
-            int genderCounter = 0;
-            if (HasPanda(panda))
-            {
-                List<List<Panda>> temporaryListOfPandasToBeSearched = new List<List<Panda>>();
-                temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[panda]);
-                int NumberOfListsToBeRemovedFromTheTempList = 0;
-                int n = 0;
-                while (n < level)
-                {
-                    foreach (var pandaFriendList in temporaryListOfPandasToBeSearched)
-                    {
-                        NumberOfListsToBeRemovedFromTheTempList++;
-                        foreach (var Panda in pandaFriendList)
-                {
-                            if (Panda.Gender == gender)
-                    {
-                        genderCounter++;
-                    }
-                            temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[Panda]);
+            var visited = new List<Panda>();
+            var queue = new Queue<ConnectionLevelNode>();
+            int genderResult = 0;
 
-                        }
-                        for (int i = 0; i < NumberOfListsToBeRemovedFromTheTempList; i++)
+            queue.Enqueue(new ConnectionLevelNode()
+            {
+                Node = panda,
+                Level = 0
+            });
+
+            while (queue.Count > 0)
+            {
+                var pandaContainer = queue.Dequeue();
+                visited.Add(pandaContainer.Node);
+
+                if (pandaContainer.Level <= level)
+                {
+                    if (pandaContainer.Node.Gender == gender)
+                    {
+                        genderResult = genderResult + 1;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+                foreach (var neighbour in AllPandasInTheNetwork[pandaContainer.Node])
+                {
+                    if (!visited.Contains(neighbour))
+                    {
+                        queue.Enqueue(new ConnectionLevelNode()
                         {
-                            temporaryListOfPandasToBeSearched.Remove(temporaryListOfPandasToBeSearched[i]);
-                        }
-                        NumberOfListsToBeRemovedFromTheTempList = 0;
-                        n++;
+                            Node = neighbour,
+                            Level = pandaContainer.Level + 1
+                        });
                     }
                 }
             }
-            else
-            {
-                throw new PandaNotInNetworkException();
-            }
-        }
+            return genderResult;
+    }
 
         private class ConnectionLevelNode
         {
