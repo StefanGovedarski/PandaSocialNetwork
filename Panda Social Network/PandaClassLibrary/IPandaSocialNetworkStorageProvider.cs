@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace PandaClassLibrary
 {
-    interface IPandaSocialNetworkStorageProvider
+    public interface IPandaSocialNetworkStorageProvider
     {
+        void Save(SocialNetwork network);
+
+        SocialNetwork Load();
     }
 }

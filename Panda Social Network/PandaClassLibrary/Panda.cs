@@ -13,6 +13,7 @@ namespace PandaClassLibrary
         Female
     }
 
+    [Serializable]
     public class Panda
     {
         private string name;
