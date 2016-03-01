@@ -28,7 +28,7 @@ namespace PandaClassLibrary
         }
         public static Dictionary<Panda, List<Panda>> AllPandasInTheNetwork { get; set; }
 
-
+        
         public void AddPanda(Panda panda)
         {
             if (allPandasInTheNetwork.ContainsKey(panda))
@@ -36,7 +36,7 @@ namespace PandaClassLibrary
                 throw new PandaAlreadyThereException();
             }
             else
-                allPandasInTheNetwork.Add(panda, new List<Panda>());
+            allPandasInTheNetwork.Add(panda, new List<Panda>());
         }
 
         public bool HasPanda(Panda panda)
@@ -111,11 +111,11 @@ namespace PandaClassLibrary
                     return nodeLevel.Level + 1;
 
                 foreach (var neighbour in allPandasInTheNetwork[nodeLevel.Node])
-                {
+            {
                     if (!visited.Contains(neighbour))
                     {
                         queue.Enqueue(new ConnectionLevelNode() { Node = neighbour, Level = nodeLevel.Level + 1 });
-                    }
+            }
                 }
             }
 
@@ -130,7 +130,6 @@ namespace PandaClassLibrary
                 return true;
         }
 
-<<<<<<< HEAD
         public int HowManyGenderInNetwork(int level, Panda panda, GenderType gender)
         {
             var visited = new List<Panda>();
@@ -138,11 +137,6 @@ namespace PandaClassLibrary
             int genderResult = 0;
 
             queue.Enqueue(new ConnectionLevelNode()
-=======
-        public void HowManyGenderInNetwork(int level, Panda panda, GenderType gender)
-        {
-            if (level < 0)
->>>>>>> NickyMateev-master
             {
                 Node = panda,
                 Level = 0
@@ -157,41 +151,27 @@ namespace PandaClassLibrary
                 {
                     if (pandaContainer.Node.Gender == gender)
                     {
-<<<<<<< HEAD
                         genderResult = genderResult + 1;
                     }
-                }
+                        }
                 else
-                {
+                        {
                     break;
-                }
+                        }
                 foreach (var neighbour in AllPandasInTheNetwork[pandaContainer.Node])
                 {
                     if (!visited.Contains(neighbour))
                     {
                         queue.Enqueue(new ConnectionLevelNode()
-=======
-                        NumberOfListsToBeRemovedFromTheTempList++;
-                        foreach (var Panda in pandaFriendList)
-                        {
-                            if (Panda.Gender == gender)
-                            {
-                                genderCounter++;
-                            }
-                            temporaryListOfPandasToBeSearched.Add(allPandasInTheNetwork[Panda]);
-
-                        }
-                        for (int i = 0; i < NumberOfListsToBeRemovedFromTheTempList; i++)
->>>>>>> NickyMateev-master
                         {
                             Node = neighbour,
                             Level = pandaContainer.Level + 1
                         });
-                    }
                 }
             }
+            }
             return genderResult;
-    }
+        }
 
         [Serializable]
         private class ConnectionLevelNode
